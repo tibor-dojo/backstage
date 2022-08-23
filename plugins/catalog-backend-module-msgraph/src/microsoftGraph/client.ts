@@ -89,11 +89,11 @@ export class MicrosoftGraphClient {
     const credential =
       config.clientId && config.clientSecret
         ? new ClientSecretCredential(
-            config.tenantId,
-            config.clientId,
-            config.clientSecret,
-            options,
-          )
+          config.tenantId,
+          config.clientId,
+          config.clientSecret,
+          options,
+        )
         : new DefaultAzureCredential(options);
 
     return new MicrosoftGraphClient(config.target, credential);
@@ -107,7 +107,7 @@ export class MicrosoftGraphClient {
   constructor(
     private readonly baseUrl: string,
     private readonly tokenCredential: TokenCredential,
-  ) {}
+  ) { }
 
   /**
    * Get a collection of resource from Graph API and
@@ -138,16 +138,16 @@ export class MicrosoftGraphClient {
     const headers: Record<string, string> =
       appliedQueryMode === 'advanced'
         ? {
-            // Eventual consistency is required for advanced querying capabilities
-            // like "$search" or parts of "$filter".
-            // If a new user/group is not found, it'll eventually be imported on a subsequent read
-            ConsistencyLevel: 'eventual',
-          }
+          // Eventual consistency is required for advanced querying capabilities
+          // like "$search" or parts of "$filter".
+          // If a new user/group is not found, it'll eventually be imported on a subsequent read
+          ConsistencyLevel: 'eventual',
+        }
         : {};
 
     let response = await this.requestApi(path, query, headers);
 
-    for (;;) {
+    for (; ;) {
       if (response.status !== 200) {
         await this.handleError(path, response);
       }
@@ -195,6 +195,8 @@ export class MicrosoftGraphClient {
         encode: false,
       },
     );
+
+    console.log(queryString);
 
     return await this.requestRaw(
       `${this.baseUrl}/${path}${queryString}`,
