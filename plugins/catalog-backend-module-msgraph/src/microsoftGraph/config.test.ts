@@ -171,6 +171,7 @@ describe('readProviderConfigs', () => {
                 filter: 'securityEnabled eq false',
                 select: ['id', 'displayName', 'description'],
               },
+              queryMode: 'advanced',
             },
           },
         },
@@ -190,6 +191,7 @@ describe('readProviderConfigs', () => {
         groupExpand: 'member',
         groupSelect: ['id', 'displayName', 'description'],
         groupFilter: 'securityEnabled eq false',
+        queryMode: 'advanced',
       },
     ];
     expect(actual).toEqual(expected);
