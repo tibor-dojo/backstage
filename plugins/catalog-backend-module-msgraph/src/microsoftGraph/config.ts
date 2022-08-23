@@ -253,6 +253,8 @@ export function readProviderConfig(
   const groupSearch = config.getOptionalString('group.search');
   const groupSelect = config.getOptionalStringArray('group.select');
 
+  const queryMode = config.getOptionalString('queryMode');
+
   const userGroupMemberFilter = config.getOptionalString(
     'userGroupMember.filter',
   );
@@ -279,6 +281,14 @@ export function readProviderConfig(
     throw new Error(`clientId must be provided when clientSecret is defined.`);
   }
 
+  if (
+    queryMode !== undefined &&
+    queryMode !== 'basic' &&
+    queryMode !== 'advanced'
+  ) {
+    throw new Error(`queryMode must be one of: basic, advanced`);
+  }
+
   return {
     id,
     target,
@@ -294,5 +304,6 @@ export function readProviderConfig(
     groupSelect,
     userGroupMemberFilter,
     userGroupMemberSearch,
+    queryMode,
   };
 }
